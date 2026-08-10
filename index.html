@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Opening JobHired...</title>
+    <script>
+        
+        const urlParams = new URLSearchParams(window.location.search);
+        const jobId = urlParams.get('id');
+        
+        if (jobId) {
+            window.location.href = "jobhired://job/" + jobId;
+        }
+    </script>
+</head>
+<body>
+    <p>Redirecting to JobHired app...</p>
+</body>
+</html>
