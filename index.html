@@ -1,51 +1,58 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Opening JobHired...</title>
-    <script>
-         (function() {
-           
-            const urlParams = new URLSearchParams(window.location.search);
-            let encodedId = urlParams.get('id');
-
-            
-            if (!encodedId) {
-             
-                return;
-            }
-
-            try {
-                
-                encodedId = encodedId.replace(/-/g, '+').replace(/_/g, '/');
-                while (encodedId.length % 4) {
-                    encodedId += '=';
-                }
-                
-                const decodedJobId = atob(encodedId).replace(/[\r\n\t]/g, '').trim();
-               
-                if (decodedJobId) {
-                    const finalAppScheme = "jobhired://job/" + encodeURIComponent(decodedJobId);
-                  
-
-                    
-                    const btn = document.getElementById("testRedirectBtn");
-                    btn.href = finalAppScheme;
-                    btn.style.display = "inline-block";
-                    btn.innerText = "Launch Scheme (" + finalAppScheme + ")";
-
-                    
-                    window.location.replace(finalAppScheme);
-                } else {
-                    log("ERROR: Decoded Job ID is empty!", true);
-                }
-            } catch (e) {
-                log("CRITICAL ERROR: " + e.message, true);
-            }
-        })();
-    </script>
+   
 </head>
 <body>
     <p>Opening job details in JobHired app...</p>
+    
+ 
+    <a id="testRedirectBtn" href="#" class="btn" style="display:none;">Open in JobHired App</a>
+
+    <script>
+         
+        document.addEventListener("DOMContentLoaded", function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            let encodedId = urlParams.get('id');
+
+            if (!encodedId) {
+                console.warn("No 'id' parameter found in URL.");
+                return;
+            }
+
+            try {
+                 
+                encodedId = encodedId.replace(/-/g, '+').replace(/_/g, '/');
+                while (encodedId.length % 4) {
+                    encodedId += '=';
+                }
+                
+                 
+                const decodedJobId = atob(encodedId).replace(/[\r\n\t]/g, '').trim();
+               
+                if (decodedJobId) {
+                    const finalAppScheme = "jobhired://job/" + encodeURIComponent(decodedJobId);
+                  
+                  
+                    const btn = document.getElementById("testRedirectBtn");
+                    if (btn) {
+                        btn.href = finalAppScheme;
+                        btn.style.display = "inline-block";
+                        btn.innerText = "Open Job (" + decodedJobId + ")";
+                    }
+
+                   
+                    window.location.replace(finalAppScheme);
+                } else {
+                    console.error("ERROR: Decoded Job ID is empty!");
+                }
+            } catch (e) {
+                console.error("CRITICAL ERROR:", e.message);
+            }
+        });
+    </script>
 </body>
 </html>
