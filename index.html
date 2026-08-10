@@ -4,16 +4,35 @@
     <meta charset="utf-8">
     <title>Opening JobHired...</title>
     <script>
-        const urlParams = new URLSearchParams(window.location.search);
-        const jobId = urlParams.get('id');
-        
-        if (jobId) {
-            // Redirects straight to your app's deep link
-            window.location.href = "jobhired://job/" + jobId;
-        }
+        (function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            let encodedId = urlParams.get('id');
+
+            if (encodedId) {
+                try {
+                     
+                    encodedId = encodedId.replace(/-/g, '+').replace(/_/g, '/');
+                    
+                     
+                    while (encodedId.length % 4) {
+                        encodedId += '=';
+                    }
+
+                    
+                    const decodedJobId = atob(encodedId).trim();
+
+                    if (decodedJobId) {
+                        
+                        window.location.replace("jobhired://job/" + encodeURIComponent(decodedJobId));
+                    }
+                } catch (e) {
+                    console.error("Decoding error:", e);
+                }
+            }
+        })();
     </script>
 </head>
 <body>
-    <p>Redirecting to JobHired app...</p>
+    <p>Opening job details in JobHired app...</p>
 </body>
 </html>
