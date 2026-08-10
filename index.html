@@ -4,10 +4,9 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Opening JobHired...</title>
-  
 </head>
 <body>
- 
+    <p>Opening job details in JobHired app...</p>
 
     <script>
         document.addEventListener("DOMContentLoaded", function() {
@@ -26,10 +25,6 @@
 
                 if (decodedJobId) {
                     const finalAppScheme = "jobhired://job/" + encodeURIComponent(decodedJobId);
-
-                    const btn = document.getElementById("testRedirectBtn");
-                   
-
                     window.location.replace(finalAppScheme);
                 }
             } catch (e) {
