@@ -8,8 +8,14 @@
         const urlParams = new URLSearchParams(window.location.search);
         const jobId = urlParams.get('id');
         
-        if (jobId) {
-            window.location.href = "jobhired://job/" + jobId;
+        f (encodedId) {
+            try {
+                 
+                const decodedJobId = atob(encodedId.replace(/-/g, '+').replace(/_/g, '/'));
+                window.location.href = "jobhired://job/" + decodedJobId;
+            } catch (e) {
+                console.error("Invalid token:", e);
+            }
         }
     </script>
 </head>
