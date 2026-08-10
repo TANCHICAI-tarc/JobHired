@@ -11,7 +11,7 @@
         if (jobId) {
             try {
                  
-                const decodedJobId = hexToUtf8(encodedId).trim();
+                const decodedJobId = hexToUtf8(jobId).trim();
 
                 if (decodedJobId) {
                     window.location.href = "jobhired://job/" + decodedJobId;
