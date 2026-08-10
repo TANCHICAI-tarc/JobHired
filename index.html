@@ -11,10 +11,15 @@
         if (encodedId) {
             try {
                  
-                const decodedJobId = atob(encodedId.replace(/-/g, '+').replace(/_/g, '/'));
-                window.location.href = "jobhired://job/" + decodedJobId;
+                encodedId = encodedId.replace(/-/g, '+').replace(/_/g, '/');
+                
+                const decodedJobId = atob(encodedId).trim();
+
+                if (decodedJobId) {
+                    window.location.href = "jobhired://job/" + decodedJobId;
+                }
             } catch (e) {
-                console.error("Invalid token:", e);
+                console.error("Decoding error:", e);
             }
         }
     </script>
