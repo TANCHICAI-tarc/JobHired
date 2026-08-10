@@ -4,21 +4,12 @@
     <meta charset="utf-8">
     <title>Opening JobHired...</title>
     <script>
-        
         const urlParams = new URLSearchParams(window.location.search);
         const jobId = urlParams.get('id');
         
         if (jobId) {
-            try {
-                 
-                const decodedJobId = hexToUtf8(jobId).trim();
-
-                if (decodedJobId) {
-                    window.location.href = "jobhired://job/" + decodedJobId;
-                }
-            } catch (e) {
-                console.error("Decoding error:", e);
-            }
+            // Redirects straight to your app's deep link
+            window.location.href = "jobhired://job/" + jobId;
         }
     </script>
 </head>
