@@ -11,9 +11,7 @@
         if (encodedId) {
             try {
                  
-                encodedId = encodedId.replace(/-/g, '+').replace(/_/g, '/');
-                
-                const decodedJobId = atob(encodedId).trim();
+                const decodedJobId = hexToUtf8(encodedId).trim();
 
                 if (decodedJobId) {
                     window.location.href = "jobhired://job/" + decodedJobId;
