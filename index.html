@@ -8,7 +8,7 @@
         const urlParams = new URLSearchParams(window.location.search);
         const jobId = urlParams.get('id');
         
-        if (encodedId) {
+        if (jobId) {
             try {
                  
                 const decodedJobId = hexToUtf8(encodedId).trim();
