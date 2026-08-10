@@ -8,7 +8,7 @@
         const urlParams = new URLSearchParams(window.location.search);
         const jobId = urlParams.get('id');
         
-        f (encodedId) {
+        if (encodedId) {
             try {
                  
                 const decodedJobId = atob(encodedId.replace(/-/g, '+').replace(/_/g, '/'));
