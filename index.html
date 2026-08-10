@@ -23,8 +23,7 @@
                 }
                 
                 const decodedJobId = atob(encodedId).replace(/[\r\n\t]/g, '').trim();
-                log("Decoded Job ID Result: '" + decodedJobId + "'");
-
+               
                 if (decodedJobId) {
                     const finalAppScheme = "jobhired://job/" + encodeURIComponent(decodedJobId);
                   
