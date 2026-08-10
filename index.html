@@ -4,53 +4,41 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Opening JobHired...</title>
-   
+    <style>
+        body { font-family: system-ui, sans-serif; text-align: center; padding-top: 60px; background: #fafafa; color: #111; }
+        .btn { display: inline-block; margin-top: 16px; padding: 12px 24px; background-color: #0066cc; color: #fff; text-decoration: none; border-radius: 8px; font-weight: 600; }
+    </style>
 </head>
 <body>
     <p>Opening job details in JobHired app...</p>
-    
- 
-    <a id="testRedirectBtn" href="#" class="btn" style="display:none;">Open in JobHired App</a>
+    <a id="testRedirectBtn" href="#" class="btn" style="display:none;">Open in App</a>
 
     <script>
-         
         document.addEventListener("DOMContentLoaded", function() {
             const urlParams = new URLSearchParams(window.location.search);
             let encodedId = urlParams.get('id');
 
-            if (!encodedId) {
-                console.warn("No 'id' parameter found in URL.");
-                return;
-            }
+            if (!encodedId) return;
 
             try {
-                 
                 encodedId = encodedId.replace(/-/g, '+').replace(/_/g, '/');
                 while (encodedId.length % 4) {
                     encodedId += '=';
                 }
-                
-                 
+
                 const decodedJobId = atob(encodedId).replace(/[\r\n\t]/g, '').trim();
-               
+
                 if (decodedJobId) {
                     const finalAppScheme = "jobhired://job/" + encodeURIComponent(decodedJobId);
-                  
-                  
-                    const btn = document.getElementById("testRedirectBtn");
-                    if (btn) {
-                        btn.href = finalAppScheme;
-                        btn.style.display = "inline-block";
-                        btn.innerText = "Open Job (" + decodedJobId + ")";
-                    }
 
-                   
+                    const btn = document.getElementById("testRedirectBtn");
+                    btn.href = finalAppScheme;
+                    btn.style.display = "inline-block";
+
                     window.location.replace(finalAppScheme);
-                } else {
-                    console.error("ERROR: Decoded Job ID is empty!");
                 }
             } catch (e) {
-                console.error("CRITICAL ERROR:", e.message);
+                console.error("Link processing error:", e);
             }
         });
     </script>
