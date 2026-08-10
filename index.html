@@ -1,73 +1,52 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JobHired Deep Link Debugger</title>
-    <style>
-        body { font-family: monospace; padding: 16px; background: #1e1e1e; color: #00ff00; }
-        .log-box { background: #000; padding: 12px; border-radius: 6px; border: 1px solid #333; margin-top: 10px; }
-        .btn { display: inline-block; margin-top: 16px; padding: 12px 20px; background: #0066cc; color: #fff; text-decoration: none; border-radius: 6px; font-weight: bold; }
-        .error { color: #ff5555; }
-    </style>
+    <title>Opening JobHired...</title>
+    <script>
+         (function() {
+           
+            const urlParams = new URLSearchParams(window.location.search);
+            let encodedId = urlParams.get('id');
+
+            
+            if (!encodedId) {
+             
+                return;
+            }
+
+            try {
+                
+                encodedId = encodedId.replace(/-/g, '+').replace(/_/g, '/');
+                while (encodedId.length % 4) {
+                    encodedId += '=';
+                }
+                
+                const decodedJobId = atob(encodedId).replace(/[\r\n\t]/g, '').trim();
+                log("Decoded Job ID Result: '" + decodedJobId + "'");
+
+                if (decodedJobId) {
+                    const finalAppScheme = "jobhired://job/" + encodeURIComponent(decodedJobId);
+                  
+
+                    
+                    const btn = document.getElementById("testRedirectBtn");
+                    btn.href = finalAppScheme;
+                    btn.style.display = "inline-block";
+                    btn.innerText = "Launch Scheme (" + finalAppScheme + ")";
+
+                    
+                    window.location.replace(finalAppScheme);
+                } else {
+                    log("ERROR: Decoded Job ID is empty!", true);
+                }
+            } catch (e) {
+                log("CRITICAL ERROR: " + e.message, true);
+            }
+        })();
+    </script>
 </head>
 <body>
-    <h2>Deep Link Diagnostics</h2>
-    <div id="logs" class="log-box">Starting debug run...<br></div>
-
-    <a id="testRedirectBtn" href="#" class="btn" style="display:none;">Test Launch App Manually</a>
-
-    <script>
-        function log(msg, isError = false) {
-            const container = document.getElementById("logs");
-            const colorClass = isError ? "class='error'" : "";
-            container.innerHTML += `<div ${colorClass}>[${new Date().toLocaleTimeString()}] ${msg}</div>`;
-            console.log(msg);
-        }
-
-        (function() {
-            log("1. Reading URL parameters...");
-            const urlParams = new URLSearchParams(window.location.search);
-            let encodedId = urlParams.get('id');
-
-            log("Raw 'id' parameter: " + encodedId);
-
-            if (!encodedId) {
-                log("ERROR: No 'id' parameter found in URL string!", true);
-                return;
-            }
-
-            try {
-                log("2. Cleaning Base64 URL_SAFE characters...");
-                encodedId = encodedId.replace(/-/g, '+').replace(/_/g, '/');
-                while (encodedId.length % 4) {
-                    encodedId += '=';
-                }
-                log("Normalized Base64 String: " + encodedId);
-
-                log("3. Decoding Base64 with atob()...");
-                const decodedJobId = atob(encodedId).replace(/[\r\n\t]/g, '').trim();
-                log("Decoded Job ID Result: '" + decodedJobId + "'");
-
-                if (decodedJobId) {
-                    const finalAppScheme = "jobhired://job/" + encodeURIComponent(decodedJobId);
-                    log("4. Final Scheme Target: " + finalAppScheme);
-
-                    // Show manual trigger button
-                    const btn = document.getElementById("testRedirectBtn");
-                    btn.href = finalAppScheme;
-                    btn.style.display = "inline-block";
-                    btn.innerText = "Launch Scheme (" + finalAppScheme + ")";
-
-                    log("5. Executing window.location.replace()...");
-                    window.location.replace(finalAppScheme);
-                } else {
-                    log("ERROR: Decoded Job ID is empty!", true);
-                }
-            } catch (e) {
-                log("CRITICAL ERROR: " + e.message, true);
-            }
-        })();
-    </script>
+    <p>Opening job details in JobHired app...</p>
 </body>
 </html>
