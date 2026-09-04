@@ -4,57 +4,16 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Opening JobHired...</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            padding: 50px 20px;
-            background-color: #f9f9f9;
-            color: #333;
-        }
-        .fallback-container {
-            display: none;
-            margin-top: 30px;
-        }
-        .btn-download {
-            display: inline-block;
-            background-color: #007bff;
-            color: white;
-            padding: 12px 24px;
-            font-size: 16px;
-            font-weight: bold;
-            text-decoration: none;
-            border-radius: 5px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-        }
-        .btn-download:hover {
-            background-color: #0056b3;
-        }
-    </style>
 </head>
 <body>
-    <div id="loading-view">
-        <p>Opening job details in JobHired app...</p>
-    </div>
-
-    
-    <div id="fallback-view" class="fallback-container">
-        <h3>App not installed?</h3>
-        <p>It looks like you don't have the JobHired app installed on your device.</p>
-        <br>
-       
-        <a href="https://github.com/TANCHICAI-tarc/JobHired/blob/main/set2TanChiCai.apk" class="btn-download">Download JobHired APK</a>
-    </div>
+    <p>Opening job details in JobHired app...</p>
 
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             const urlParams = new URLSearchParams(window.location.search);
             let encodedId = urlParams.get('id');
 
-            if (!encodedId) {
-                showFallback();
-                return;
-            }
+            if (!encodedId) return;
 
             try {
                 encodedId = encodedId.replace(/-/g, '+').replace(/_/g, '/');
@@ -66,32 +25,12 @@
 
                 if (decodedJobId) {
                     const finalAppScheme = "jobhired://job/" + encodeURIComponent(decodedJobId);
-                    
-                   
-                    const fallbackTimer = setTimeout(function() {
-                        showFallback();
-                    }, 2500); // 2.5 seconds delay
-
-                    
                     window.location.replace(finalAppScheme);
-
-                    
-                    window.addEventListener('blur', function() {
-                        clearTimeout(fallbackTimer);
-                    });
-                } else {
-                    showFallback();
                 }
             } catch (e) {
                 console.error("Link processing error:", e);
-                showFallback();
             }
         });
-
-        function showFallback() {
-            document.getElementById('loading-view').style.display = 'none';
-            document.getElementById('fallback-view').style.display = 'block';
-        }
     </script>
-</body> 
+</body>
 </html>
